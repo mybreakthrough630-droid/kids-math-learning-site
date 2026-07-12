@@ -1,0 +1,281 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>小朋友數學學習樂園</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #203042;
+      --muted: #5a6d7f;
+      --line: #d9e2ea;
+      --sun: #ffd35c;
+      --sea: #35b7c9;
+      --leaf: #4fb77f;
+      --rose: #ff7f8a;
+      --panel: rgba(255, 255, 255, 0.94);
+      --shadow: 0 18px 42px rgba(32, 48, 66, 0.14);
+      --radius: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Avenir Next", "Segoe UI", "PingFang HK", "Microsoft JhengHei", Arial, sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 12% 12%, rgba(255, 211, 92, 0.45) 0 70px, transparent 72px),
+        radial-gradient(circle at 86% 10%, rgba(53, 183, 201, 0.28) 0 82px, transparent 84px),
+        linear-gradient(180deg, #fff8d8 0%, #eaf8ff 48%, #f4fff6 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background:
+        linear-gradient(90deg, rgba(255,255,255,0.45) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(255,255,255,0.45) 1px, transparent 1px);
+      background-size: 44px 44px;
+    }
+
+    main {
+      width: min(1280px, 100%);
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: 18px;
+      display: grid;
+      grid-template-rows: auto auto minmax(620px, 1fr);
+      gap: 14px;
+    }
+
+    header {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 16px;
+      align-items: center;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(38px, 7vw, 72px);
+      line-height: 1;
+      letter-spacing: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .subtitle {
+      margin: 10px 0 0;
+      color: var(--muted);
+      font-size: clamp(20px, 3vw, 30px);
+      font-weight: 900;
+      line-height: 1.25;
+    }
+
+    .mascots {
+      display: flex;
+      gap: 8px;
+      align-items: end;
+    }
+
+    .mascot {
+      display: grid;
+      place-items: center;
+      width: clamp(58px, 9vw, 96px);
+      height: clamp(58px, 9vw, 96px);
+      border: 3px solid rgba(32, 48, 66, 0.16);
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: 0 8px 0 rgba(32, 48, 66, 0.08);
+      font-size: clamp(32px, 5vw, 54px);
+      font-weight: 950;
+      line-height: 1;
+      animation: floaty 4s ease-in-out infinite;
+    }
+
+    .mascot:nth-child(2) {
+      animation-delay: -1.2s;
+    }
+
+    @keyframes floaty {
+      0%, 100% { transform: translateY(0) rotate(-2deg); }
+      50% { transform: translateY(-8px) rotate(3deg); }
+    }
+
+    .switcher {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      padding: 12px;
+      border: 2px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--panel);
+      box-shadow: var(--shadow);
+    }
+
+    button {
+      min-height: 82px;
+      padding: 12px;
+      border: 3px solid rgba(32, 48, 66, 0.16);
+      border-radius: var(--radius);
+      background: #ffffff;
+      color: var(--ink);
+      font: inherit;
+      font-size: clamp(22px, 3.4vw, 36px);
+      font-weight: 950;
+      line-height: 1.12;
+      cursor: pointer;
+      touch-action: manipulation;
+      transition: transform 140ms ease, box-shadow 140ms ease, background 140ms ease, border-color 140ms ease;
+    }
+
+    button small {
+      display: block;
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: clamp(15px, 2vw, 19px);
+      font-weight: 850;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 9px 18px rgba(32, 48, 66, 0.12);
+    }
+
+    button:active {
+      transform: translateY(2px) scale(0.99);
+      box-shadow: none;
+    }
+
+    button:focus-visible,
+    iframe:focus-visible {
+      outline: 4px solid rgba(255, 211, 92, 0.9);
+      outline-offset: 3px;
+    }
+
+    button.active {
+      border-color: #d99a20;
+      background: #ffe38a;
+      box-shadow: inset 0 -5px 0 rgba(32, 48, 66, 0.08);
+    }
+
+    .frame-wrap {
+      min-height: 620px;
+      border: 2px solid var(--line);
+      border-radius: var(--radius);
+      background: #ffffff;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    iframe {
+      display: block;
+      width: 100%;
+      height: min(1120px, calc(100vh - 220px));
+      min-height: 620px;
+      border: 0;
+      background: #ffffff;
+    }
+
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      justify-content: center;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 16px;
+      font-weight: 800;
+    }
+
+    .links a {
+      color: #2456a6;
+      font-weight: 950;
+    }
+
+    @media (max-width: 760px) {
+      main {
+        padding: 12px;
+        grid-template-rows: auto auto minmax(560px, 1fr);
+      }
+
+      header,
+      .switcher {
+        grid-template-columns: 1fr;
+      }
+
+      .mascots {
+        justify-content: center;
+      }
+
+      iframe,
+      .frame-wrap {
+        min-height: 560px;
+      }
+
+      iframe {
+        height: calc(100vh - 260px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div>
+        <h1>小朋友數學學習樂園</h1>
+        <p class="subtitle">海洋基礎數學 + 一年級奧數，兩個互動練習合併到同一個入口。</p>
+      </div>
+      <div class="mascots" aria-hidden="true">
+        <span class="mascot">+</span>
+        <span class="mascot">?</span>
+      </div>
+    </header>
+
+    <nav class="switcher" aria-label="選擇學習頁面">
+      <button class="active" type="button" data-src="ocean-math-kids.html">
+        海洋數學小學堂
+        <small>加減、比較、圖案練習</small>
+      </button>
+      <button type="button" data-src="grade1-olympiad-math.html">
+        一年級奧數小樂園
+        <small>12 類題型、隨機出題</small>
+      </button>
+    </nav>
+
+    <section>
+      <div class="frame-wrap">
+        <iframe id="lessonFrame" title="海洋數學小學堂" src="ocean-math-kids.html"></iframe>
+      </div>
+      <div class="links">
+        <span>直接打開：</span>
+        <a href="ocean-math-kids.html">海洋數學小學堂</a>
+        <span>|</span>
+        <a href="grade1-olympiad-math.html">一年級奧數小樂園</a>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    const frame = document.getElementById("lessonFrame");
+    const buttons = document.querySelectorAll("[data-src]");
+
+    buttons.forEach(button => {
+      button.addEventListener("click", () => {
+        buttons.forEach(item => item.classList.toggle("active", item === button));
+        frame.src = button.dataset.src;
+        frame.title = button.firstChild.textContent.trim();
+      });
+    });
+  </script>
+</body>
+</html>
