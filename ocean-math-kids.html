@@ -1,0 +1,1253 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>海洋數學小學堂</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #143047;
+      --muted: #527084;
+      --sea: #35b7c9;
+      --deep: #176b87;
+      --sun: #ffd166;
+      --coral: #ff7a7a;
+      --mint: #79d8a4;
+      --foam: #f6fdff;
+      --panel: rgba(255, 255, 255, 0.92);
+      --line: rgba(20, 48, 71, 0.18);
+      --shadow: 0 20px 50px rgba(23, 107, 135, 0.22);
+      --radius: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Avenir Next", "Segoe UI", "PingFang HK", "Microsoft JhengHei", Arial, sans-serif;
+      color: var(--ink);
+      background:
+        linear-gradient(180deg, rgba(152, 225, 235, 0.95) 0%, rgba(207, 246, 246, 0.94) 45%, rgba(247, 253, 255, 1) 100%);
+      overflow-x: hidden;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      inset: auto 0 0;
+      height: 140px;
+      pointer-events: none;
+      background:
+        radial-gradient(100px 48px at 7% 95%, rgba(121, 216, 164, 0.6), transparent 70%),
+        radial-gradient(140px 60px at 82% 100%, rgba(255, 122, 122, 0.35), transparent 70%),
+        linear-gradient(180deg, transparent, rgba(23, 107, 135, 0.12));
+      z-index: -1;
+    }
+
+    body::after {
+      top: 0;
+      bottom: auto;
+      height: 180px;
+      background:
+        radial-gradient(circle at 12% 30%, rgba(255, 255, 255, 0.75) 0 10px, transparent 11px),
+        radial-gradient(circle at 26% 68%, rgba(255, 255, 255, 0.48) 0 6px, transparent 7px),
+        radial-gradient(circle at 76% 28%, rgba(255, 255, 255, 0.55) 0 8px, transparent 9px),
+        radial-gradient(circle at 88% 72%, rgba(255, 255, 255, 0.42) 0 5px, transparent 6px);
+      opacity: 0.75;
+    }
+
+    main {
+      width: min(1180px, 100%);
+      margin: 0 auto;
+      padding: 18px;
+    }
+
+    .shell {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 310px;
+      gap: 18px;
+      align-items: start;
+    }
+
+    header {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 16px;
+      align-items: center;
+      padding: 14px 0 18px;
+    }
+
+    h1 {
+      margin: 0;
+      color: #0f4c67;
+      font-size: clamp(38px, 7vw, 76px);
+      line-height: 1;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      margin: 8px 0 0;
+      font-size: clamp(20px, 3vw, 30px);
+      font-weight: 800;
+      color: var(--deep);
+    }
+
+    .ocean-friends {
+      display: flex;
+      gap: 8px;
+      align-items: end;
+    }
+
+    .friend {
+      width: clamp(58px, 8vw, 92px);
+      height: clamp(58px, 8vw, 92px);
+      filter: drop-shadow(0 8px 8px rgba(23, 107, 135, 0.18));
+      animation: floaty 4s ease-in-out infinite;
+    }
+
+    .friend:nth-child(2) {
+      animation-delay: -1.3s;
+    }
+
+    .friend:nth-child(3) {
+      animation-delay: -2.2s;
+    }
+
+    @keyframes floaty {
+      0%, 100% { transform: translateY(0) rotate(-2deg); }
+      50% { transform: translateY(-8px) rotate(3deg); }
+    }
+
+    .panel,
+    .sidebar {
+      background: var(--panel);
+      border: 2px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    .panel {
+      min-height: 650px;
+      padding: clamp(18px, 3vw, 30px);
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 16px;
+      padding: 16px;
+    }
+
+    .tabs,
+    .difficulty-grid,
+    .sound-row {
+      display: grid;
+      gap: 10px;
+    }
+
+    .tabs {
+      grid-template-columns: 1fr 1fr;
+      margin-bottom: 18px;
+    }
+
+    button {
+      min-height: 54px;
+      border: 2px solid rgba(20, 48, 71, 0.18);
+      border-radius: var(--radius);
+      background: #ffffff;
+      color: var(--ink);
+      font: inherit;
+      font-weight: 900;
+      cursor: pointer;
+      touch-action: manipulation;
+      transition: transform 150ms ease, box-shadow 150ms ease, border-color 150ms ease, background 150ms ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 8px 18px rgba(20, 48, 71, 0.12);
+    }
+
+    button:active {
+      transform: translateY(1px) scale(0.99);
+    }
+
+    button:focus-visible,
+    input:focus-visible {
+      outline: 4px solid rgba(255, 209, 102, 0.9);
+      outline-offset: 3px;
+    }
+
+    .tab-btn,
+    .difficulty-btn {
+      font-size: clamp(18px, 2.4vw, 25px);
+    }
+
+    .tab-btn.active,
+    .difficulty-btn.active {
+      background: #ffe28a;
+      border-color: #e7a92e;
+      box-shadow: inset 0 -4px 0 rgba(20, 48, 71, 0.08);
+    }
+
+    .difficulty-btn {
+      display: grid;
+      grid-template-columns: 46px 1fr;
+      gap: 10px;
+      align-items: center;
+      min-height: 70px;
+      padding: 8px 10px;
+      text-align: left;
+    }
+
+    .difficulty-btn svg {
+      width: 44px;
+      height: 44px;
+    }
+
+    .difficulty-btn small {
+      display: block;
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 15px;
+      font-weight: 800;
+    }
+
+    .scoreboard {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .score-card {
+      min-height: 82px;
+      padding: 10px 8px;
+      border: 2px solid var(--line);
+      border-radius: var(--radius);
+      background: #f8feff;
+      text-align: center;
+    }
+
+    .score-card span {
+      display: block;
+      color: var(--muted);
+      font-size: clamp(16px, 2vw, 20px);
+      font-weight: 900;
+    }
+
+    .score-card strong {
+      display: block;
+      margin-top: 3px;
+      font-size: clamp(28px, 5vw, 42px);
+      line-height: 1;
+    }
+
+    .question-wrap {
+      display: grid;
+      gap: 16px;
+      justify-items: center;
+      min-height: 340px;
+      padding: clamp(18px, 4vw, 34px);
+      border: 2px solid rgba(23, 107, 135, 0.2);
+      border-radius: var(--radius);
+      background:
+        linear-gradient(180deg, rgba(246, 253, 255, 0.95), rgba(226, 249, 250, 0.78)),
+        repeating-linear-gradient(135deg, rgba(255, 255, 255, 0.25) 0 12px, rgba(255, 255, 255, 0) 12px 24px);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .question-wrap::before,
+    .question-wrap::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.65);
+      pointer-events: none;
+    }
+
+    .question-wrap::before {
+      width: 74px;
+      height: 74px;
+      left: 22px;
+      top: 24px;
+    }
+
+    .question-wrap::after {
+      width: 44px;
+      height: 44px;
+      right: 32px;
+      bottom: 34px;
+    }
+
+    .mode-label {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      min-height: 44px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: #ffffff;
+      color: var(--deep);
+      border: 2px solid rgba(23, 107, 135, 0.18);
+      font-size: clamp(17px, 2.5vw, 24px);
+      font-weight: 900;
+    }
+
+    .question {
+      position: relative;
+      width: 100%;
+      margin: 0;
+      text-align: center;
+      font-size: clamp(46px, 10vw, 110px);
+      font-weight: 950;
+      line-height: 1.04;
+      letter-spacing: 0;
+      color: #103a56;
+      font-family: "SF Pro Rounded", "Arial Rounded MT Bold", "Avenir Next", "PingFang HK", "Microsoft JhengHei", sans-serif;
+      font-variant-numeric: tabular-nums;
+      text-shadow: 0 3px 0 rgba(255, 255, 255, 0.78), 0 10px 24px rgba(23, 107, 135, 0.16);
+      text-wrap: balance;
+    }
+
+    .question.story {
+      max-width: 760px;
+      font-size: clamp(32px, 5.4vw, 56px);
+      line-height: 1.22;
+    }
+
+    .question-actions {
+      position: relative;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      width: 100%;
+    }
+
+    .read-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 58px;
+      padding: 10px 18px;
+      color: #0f4c67;
+      background: #e9fbff;
+      border-color: rgba(17, 138, 178, 0.45);
+      font-size: clamp(20px, 3vw, 28px);
+      box-shadow: inset 0 -3px 0 rgba(17, 138, 178, 0.12);
+    }
+
+    .read-btn svg {
+      width: 30px;
+      height: 30px;
+      flex: 0 0 auto;
+    }
+
+    .answer-area {
+      position: relative;
+      display: grid;
+      grid-template-columns: minmax(130px, 240px) auto auto;
+      gap: 10px;
+      justify-content: center;
+      width: 100%;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      min-height: 70px;
+      border: 3px solid rgba(20, 48, 71, 0.24);
+      border-radius: var(--radius);
+      color: var(--ink);
+      background: #ffffff;
+      font: inherit;
+      font-size: clamp(34px, 6vw, 56px);
+      font-weight: 950;
+      text-align: center;
+    }
+
+    .primary-btn,
+    .secondary-btn {
+      min-width: 112px;
+      min-height: 70px;
+      padding: 10px 16px;
+      font-size: clamp(22px, 3vw, 30px);
+    }
+
+    .primary-btn {
+      color: #ffffff;
+      background: #118ab2;
+      border-color: #0d6f91;
+    }
+
+    .secondary-btn {
+      background: #ffffff;
+    }
+
+    .feedback {
+      min-height: 60px;
+      margin: 16px 0 0;
+      text-align: center;
+      font-size: clamp(28px, 5vw, 48px);
+      font-weight: 950;
+      color: var(--deep);
+    }
+
+    .feedback.correct {
+      color: #17844d;
+    }
+
+    .feedback.wrong {
+      color: #bd3c3c;
+    }
+
+    .keypad {
+      display: none;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .keypad button {
+      min-height: 62px;
+      font-size: 30px;
+      background: #f8feff;
+    }
+
+    .keypad .wide {
+      grid-column: span 2;
+    }
+
+    .section-title {
+      margin: 2px 0 10px;
+      font-size: 22px;
+      font-weight: 950;
+      color: var(--deep);
+    }
+
+    .sound-row {
+      grid-template-columns: 1fr;
+      margin-top: 18px;
+    }
+
+    .toggle-btn[aria-pressed="true"] {
+      background: #c8f7dc;
+      border-color: #49a871;
+    }
+
+    .facts {
+      display: grid;
+      gap: 9px;
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 2px solid var(--line);
+      font-size: 18px;
+      font-weight: 850;
+      color: var(--muted);
+      line-height: 1.35;
+    }
+
+    .sea-bottom {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 18px;
+      align-items: end;
+    }
+
+    .sea-bottom svg {
+      width: 100%;
+      max-height: 82px;
+    }
+
+    .visually-hidden {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .celebrate {
+      animation: pop 420ms ease;
+    }
+
+    @keyframes pop {
+      0% { transform: scale(1); }
+      45% { transform: scale(1.06); }
+      100% { transform: scale(1); }
+    }
+
+    @media (max-width: 860px) {
+      main {
+        padding: 12px;
+      }
+
+      header,
+      .shell {
+        grid-template-columns: 1fr;
+      }
+
+      .ocean-friends {
+        justify-content: center;
+      }
+
+      .sidebar {
+        position: static;
+        order: -1;
+      }
+
+      .difficulty-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 620px) {
+      .scoreboard {
+        grid-template-columns: 1fr;
+      }
+
+      .difficulty-grid,
+      .tabs,
+      .answer-area {
+        grid-template-columns: 1fr;
+      }
+
+      .primary-btn,
+      .secondary-btn {
+        width: 100%;
+      }
+
+      .keypad {
+        display: grid;
+      }
+
+      .question-wrap {
+        min-height: 330px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 1ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <header>
+      <div>
+        <h1>海洋數學小學堂</h1>
+        <p class="subtitle">揀難度，答題，聽聲效，一齊練加減乘除。</p>
+      </div>
+      <div class="ocean-friends" aria-hidden="true">
+        <svg class="friend" viewBox="0 0 120 120" role="img">
+          <title>卡通小魚</title>
+          <path d="M22 63c19-28 50-31 73-7 11 12 11 12 0 24-23 24-54 21-73-7L7 83V53z" fill="#ffcf5a"/>
+          <circle cx="76" cy="58" r="6" fill="#143047"/>
+          <path d="M48 77c9 6 25 6 36-2" fill="none" stroke="#143047" stroke-width="5" stroke-linecap="round"/>
+          <path d="M43 50c-6-15 10-22 20-11" fill="#ff8a7a"/>
+        </svg>
+        <svg class="friend" viewBox="0 0 120 120" role="img">
+          <title>卡通八爪魚</title>
+          <path d="M32 52c0-24 16-39 37-39s36 16 36 39v25H32z" fill="#a98bff"/>
+          <circle cx="55" cy="49" r="6" fill="#143047"/>
+          <circle cx="82" cy="49" r="6" fill="#143047"/>
+          <path d="M59 65c8 7 17 7 25 0" fill="none" stroke="#143047" stroke-width="5" stroke-linecap="round"/>
+          <path d="M32 76c-9 18 7 25 15 5M52 76c-8 21 12 22 15 2M72 76c4 20 23 17 15 0M92 76c12 18 28 7 14-5" fill="none" stroke="#a98bff" stroke-width="14" stroke-linecap="round"/>
+        </svg>
+        <svg class="friend" viewBox="0 0 120 120" role="img">
+          <title>卡通海龜</title>
+          <ellipse cx="58" cy="66" rx="35" ry="28" fill="#79d8a4"/>
+          <circle cx="94" cy="58" r="15" fill="#79d8a4"/>
+          <circle cx="98" cy="54" r="4" fill="#143047"/>
+          <path d="M38 45c13-10 29-10 42 0M31 69h55M45 89c8-18 8-30 0-46M69 89c-7-18-7-30 0-46" fill="none" stroke="#2b9a69" stroke-width="5" stroke-linecap="round"/>
+          <path d="M30 54 13 43M31 79 13 90M75 45 86 28M76 86l12 17" fill="none" stroke="#79d8a4" stroke-width="14" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </header>
+
+    <div class="shell">
+      <section class="panel" aria-labelledby="practice-title">
+        <div class="scoreboard" aria-label="分數">
+          <div class="score-card"><span>答啱</span><strong id="rightCount">0</strong></div>
+          <div class="score-card"><span>試咗</span><strong id="tryCount">0</strong></div>
+          <div class="score-card"><span>連續</span><strong id="streakCount">0</strong></div>
+        </div>
+
+          <div class="question-wrap" id="questionWrap">
+          <div class="mode-label" id="practice-title">算式練習</div>
+          <p class="question" id="questionText">3 + 4 = ?</p>
+          <div class="question-actions">
+            <button class="read-btn" id="readBtn" type="button" aria-label="用廣東話讀題目">
+              <svg viewBox="0 0 48 48" aria-hidden="true">
+                <path d="M6 19h9l11-10v30L15 29H6z" fill="#118ab2"/>
+                <path d="M32 17c4 4 4 10 0 14M37 11c8 8 8 18 0 26" fill="none" stroke="#118ab2" stroke-width="5" stroke-linecap="round"/>
+              </svg>
+              讀題目
+            </button>
+          </div>
+
+          <div class="answer-area">
+            <label class="visually-hidden" for="answerInput">答案</label>
+            <input id="answerInput" type="number" inputmode="numeric" autocomplete="off" min="0" aria-label="輸入答案">
+            <button class="primary-btn" id="checkBtn" type="button" aria-label="輸入答案">輸入</button>
+            <button class="secondary-btn" id="nextBtn" type="button">下一題</button>
+          </div>
+        </div>
+
+        <div class="keypad" aria-label="數字鍵盤">
+          <button type="button" data-key="1">1</button>
+          <button type="button" data-key="2">2</button>
+          <button type="button" data-key="3">3</button>
+          <button type="button" data-key="4">4</button>
+          <button type="button" data-key="5">5</button>
+          <button type="button" data-key="6">6</button>
+          <button type="button" data-key="7">7</button>
+          <button type="button" data-key="8">8</button>
+          <button type="button" data-key="9">9</button>
+          <button type="button" class="wide" data-key="0">0</button>
+          <button type="button" data-action="backspace">退格</button>
+        </div>
+
+        <div class="feedback" id="feedback" aria-live="polite">輸入答案，然後按輸入。</div>
+
+        <div class="sea-bottom" aria-hidden="true">
+          <svg viewBox="0 0 120 90">
+            <path d="M12 82c9-32 25-34 35 0" fill="#79d8a4"/>
+            <path d="M26 82c3-30 19-41 23-74 8 25 15 46 12 74" fill="#2da978"/>
+          </svg>
+          <svg viewBox="0 0 120 90">
+            <path d="M14 73c20 9 34 9 52 0 21-11 32-8 40 0" fill="none" stroke="#ff7a7a" stroke-width="11" stroke-linecap="round"/>
+            <circle cx="36" cy="46" r="10" fill="#ffcf5a"/>
+            <path d="M36 24v44M14 46h44M21 31l31 31M51 31 20 62" stroke="#ffcf5a" stroke-width="7" stroke-linecap="round"/>
+          </svg>
+          <svg viewBox="0 0 120 90">
+            <path d="M28 78c-8-24 2-41 16-51 6 20 1 37-16 51zM62 80c-5-23 7-42 26-53 4 22-5 39-26 53z" fill="#2da978"/>
+          </svg>
+          <svg viewBox="0 0 120 90">
+            <path d="M21 74c8-21 25-24 34 0M52 74c7-25 28-25 36 0" fill="none" stroke="#35b7c9" stroke-width="12" stroke-linecap="round"/>
+          </svg>
+        </div>
+      </section>
+
+      <aside class="sidebar" aria-label="設定">
+        <div class="tabs" role="tablist" aria-label="題型">
+          <button class="tab-btn active" type="button" data-mode="equation" aria-pressed="true">算式</button>
+          <button class="tab-btn" type="button" data-mode="story" aria-pressed="false">文字題</button>
+        </div>
+
+        <h2 class="section-title">難度</h2>
+        <div class="difficulty-grid">
+          <button class="difficulty-btn active" type="button" data-level="ones">
+            <svg viewBox="0 0 60 60" aria-hidden="true"><path d="M11 32c12-17 30-18 43-3 5 6 5 6 0 12-13 15-31 14-43-3L3 43V27z" fill="#ffcf5a"/><circle cx="39" cy="29" r="3" fill="#143047"/></svg>
+            <span>個位加減<small>0 至 9</small></span>
+          </button>
+          <button class="difficulty-btn" type="button" data-level="twos">
+            <svg viewBox="0 0 60 60" aria-hidden="true"><path d="M30 4l7 18 19 1-15 12 5 19-16-11-16 11 5-19L4 23l19-1z" fill="#ff8a7a"/><circle cx="25" cy="29" r="2.8" fill="#143047"/><circle cx="36" cy="29" r="2.8" fill="#143047"/></svg>
+            <span>雙位加減<small>10 至 99</small></span>
+          </button>
+          <button class="difficulty-btn" type="button" data-level="multiply">
+            <svg viewBox="0 0 60 60" aria-hidden="true"><ellipse cx="28" cy="34" rx="20" ry="15" fill="#79d8a4"/><circle cx="48" cy="28" r="8" fill="#79d8a4"/><circle cx="50" cy="26" r="2" fill="#143047"/><path d="M17 26c7-5 17-5 23 0M14 38h30" stroke="#2b9a69" stroke-width="3" stroke-linecap="round"/></svg>
+            <span>簡單乘法<small>1 至 10 倍</small></span>
+          </button>
+          <button class="difficulty-btn" type="button" data-level="divide">
+            <svg viewBox="0 0 60 60" aria-hidden="true"><path d="M16 25c0-12 8-19 19-19s19 8 19 20v15H16z" fill="#a98bff"/><circle cx="28" cy="25" r="3" fill="#143047"/><circle cx="42" cy="25" r="3" fill="#143047"/><path d="M29 34c4 3 9 3 13 0" stroke="#143047" stroke-width="3" stroke-linecap="round"/></svg>
+            <span>簡單除法<small>整除答案</small></span>
+          </button>
+          <button class="difficulty-btn" type="button" data-level="mixed">
+            <svg viewBox="0 0 60 60" aria-hidden="true"><circle cx="17" cy="19" r="9" fill="#35b7c9"/><circle cx="41" cy="18" r="9" fill="#ffd166"/><circle cx="24" cy="42" r="9" fill="#79d8a4"/><circle cx="45" cy="40" r="8" fill="#ff7a7a"/></svg>
+            <span>混合挑戰<small>加減乘除</small></span>
+          </button>
+          <button class="difficulty-btn" type="button" data-level="thinking">
+            <svg viewBox="0 0 60 60" aria-hidden="true"><path d="M17 28c0-12 9-20 21-20s20 8 20 19c0 8-4 14-11 18l-2 7H30l-2-7c-7-4-11-10-11-17z" fill="#ffd166"/><path d="M29 25c2-6 14-6 14 2 0 7-9 6-9 13" fill="none" stroke="#143047" stroke-width="4" stroke-linecap="round"/><circle cx="34" cy="49" r="3" fill="#143047"/><path d="M5 35h10M9 15l8 7M55 13l-8 8" stroke="#ff7a7a" stroke-width="4" stroke-linecap="round"/></svg>
+            <span>思考題型<small>揀啱資料</small></span>
+          </button>
+        </div>
+
+        <div class="sound-row">
+          <h2 class="section-title">聲效</h2>
+          <button class="toggle-btn" id="soundToggle" type="button" aria-pressed="true">聲效開</button>
+          <button class="secondary-btn" id="resetBtn" type="button">重設分數</button>
+        </div>
+
+        <div class="facts" aria-label="題目範圍">
+          <div>算式題：個位、雙位、簡單乘法、整除除法。</div>
+          <div>文字題：30 以內加減，乘除都用細數值。</div>
+          <div>思考題：有相關資料同干擾資料，要睇清楚問題。</div>
+          <div>每一題都會重新隨機產生。</div>
+        </div>
+      </aside>
+    </div>
+  </main>
+
+  <script>
+    const $ = (selector) => document.querySelector(selector);
+    const $$ = (selector) => Array.from(document.querySelectorAll(selector));
+
+    const state = {
+      mode: "equation",
+      level: "ones",
+      current: null,
+      answered: false,
+      sound: true,
+      score: {
+        right: 0,
+        tries: 0,
+        streak: 0
+      },
+      readResetTimer: null
+    };
+
+    const symbols = {
+      add: "+",
+      subtract: "-",
+      multiply: "x",
+      divide: "÷"
+    };
+
+    const levelNames = {
+      ones: "個位加減",
+      twos: "雙位加減",
+      multiply: "簡單乘法",
+      divide: "簡單除法",
+      mixed: "混合挑戰",
+      thinking: "思考題型"
+    };
+
+    const addStories = [
+      (a, b) => `小明有 ${a} 粒糖，媽媽又畀佢 ${b} 粒。依家小明共有幾多粒糖？`,
+      (a, b) => `樂樂畫咗 ${a} 粒星星，又畫多 ${b} 粒。張紙上一共有幾多粒星星？`,
+      (a, b) => `書架上有 ${a} 本故事書，爸爸再放上 ${b} 本。書架上依家有幾多本書？`,
+      (a, b) => `盒入面有 ${a} 枝顏色筆，姐姐再放入 ${b} 枝。盒入面共有幾多枝顏色筆？`,
+      (a, b) => `公園有 ${a} 個小朋友玩緊，之後又嚟咗 ${b} 個。公園依家有幾多個小朋友？`,
+      (a, b) => `魚缸有 ${a} 條小魚，又加入 ${b} 條。魚缸一共有幾多條小魚？`
+    ];
+
+    const subtractStories = [
+      (a, b) => `小美有 ${a} 張貼紙，送咗 ${b} 張畀朋友。小美仲有幾多張貼紙？`,
+      (a, b) => `碟上有 ${a} 粒提子，弟弟食咗 ${b} 粒。碟上仲剩幾多粒提子？`,
+      (a, b) => `籃入面有 ${a} 個蘋果，媽媽拎走 ${b} 個。籃入面仲有幾多個蘋果？`,
+      (a, b) => `盒入面有 ${a} 塊積木，小朋友用咗 ${b} 塊。盒入面仲剩幾多塊積木？`,
+      (a, b) => `海灘上有 ${a} 個貝殼，海浪沖走 ${b} 個。海灘仲有幾多個貝殼？`,
+      (a, b) => `課室有 ${a} 張椅，老師搬走 ${b} 張。課室仲有幾多張椅？`
+    ];
+
+    const multiplyStories = [
+      (groups, each) => `有 ${groups} 個小朋友，每人有 ${each} 粒糖。一共有幾多粒糖？`,
+      (groups, each) => `有 ${groups} 個盒，每個盒有 ${each} 枝鉛筆。一共有幾多枝鉛筆？`,
+      (groups, each) => `有 ${groups} 碟餅乾，每碟有 ${each} 塊。一共有幾多塊餅乾？`,
+      (groups, each) => `有 ${groups} 行花，每行有 ${each} 朵。一共有幾多朵花？`,
+      (groups, each) => `有 ${groups} 隊小魚，每隊有 ${each} 條。一共有幾多條小魚？`
+    ];
+
+    const divideStories = [
+      (total, groups) => `${total} 粒糖平均分畀 ${groups} 個小朋友，每個小朋友有幾多粒？`,
+      (total, groups) => `${total} 枝鉛筆平均放入 ${groups} 個筆筒，每個筆筒有幾多枝？`,
+      (total, groups) => `${total} 張貼紙平均分成 ${groups} 份，每份有幾多張？`,
+      (total, groups) => `${total} 個橙平均放入 ${groups} 個袋，每個袋有幾多個？`,
+      (total, groups) => `${total} 條小魚平均游入 ${groups} 個水池，每個水池有幾多條？`
+    ];
+
+    function generateThinkingStory() {
+      const type = pick(["categoryAdd", "ownerAdd", "categorySubtract", "targetMultiply", "targetDivide"]);
+
+      if (type === "categoryAdd") {
+        const apples = randomInt(1, 12);
+        const dadOranges = randomInt(1, 12);
+        const brotherOranges = randomInt(1, 12);
+        return storyQuestion({
+          operation: "add",
+          a: dadOranges,
+          b: brotherOranges,
+          answer: dadOranges + brotherOranges,
+          text: `媽媽有 ${apples} 個蘋果，爸爸有 ${dadOranges} 個橙，弟弟有 ${brotherOranges} 個橙。一共有幾多個橙？`,
+          meta: { thinking: true, type, relevant: [dadOranges, brotherOranges], distractors: [apples], target: "橙" }
+        });
+      }
+
+      if (type === "ownerAdd") {
+        const brotherBooks = randomInt(1, 10);
+        const lokStickers = randomInt(1, 12);
+        const meiStickers = randomInt(1, 12);
+        return storyQuestion({
+          operation: "add",
+          a: lokStickers,
+          b: meiStickers,
+          answer: lokStickers + meiStickers,
+          text: `弟弟有 ${brotherBooks} 本故事書，樂樂有 ${lokStickers} 張貼紙，小美有 ${meiStickers} 張貼紙。樂樂同小美一共有幾多張貼紙？`,
+          meta: { thinking: true, type, relevant: [lokStickers, meiStickers], distractors: [brotherBooks], target: "貼紙" }
+        });
+      }
+
+      if (type === "categorySubtract") {
+        const candies = randomInt(1, 12);
+        const oranges = randomInt(4, 18);
+        const eatenOranges = randomInt(1, oranges - 1);
+        return storyQuestion({
+          operation: "subtract",
+          a: oranges,
+          b: eatenOranges,
+          answer: oranges - eatenOranges,
+          text: `盒入面有 ${candies} 粒糖，碟上有 ${oranges} 個橙，弟弟食咗 ${eatenOranges} 個橙。碟上仲剩幾多個橙？`,
+          meta: { thinking: true, type, relevant: [oranges, eatenOranges], distractors: [candies], target: "橙" }
+        });
+      }
+
+      if (type === "targetMultiply") {
+        const redBags = randomInt(2, 5);
+        const candiesEach = randomInt(2, 6);
+        const blueBoxes = randomInt(1, 4);
+        const pencilsEach = randomInt(2, 6);
+        return storyQuestion({
+          operation: "multiply",
+          a: redBags,
+          b: candiesEach,
+          answer: redBags * candiesEach,
+          text: `有 ${redBags} 個紅色袋，每個袋有 ${candiesEach} 粒糖；又有 ${blueBoxes} 個藍色盒，每個盒有 ${pencilsEach} 枝鉛筆。紅色袋一共有幾多粒糖？`,
+          meta: { thinking: true, type, relevant: [redBags, candiesEach], distractors: [blueBoxes, pencilsEach], target: "紅色袋的糖" }
+        });
+      }
+
+      const groups = randomInt(2, 5);
+      const each = randomInt(2, 6);
+      const totalCandies = groups * each;
+      const oranges = randomInt(1, 15);
+      return storyQuestion({
+        operation: "divide",
+        a: totalCandies,
+        b: groups,
+        answer: each,
+        text: `${totalCandies} 粒糖平均分畀 ${groups} 個小朋友，枱上仲有 ${oranges} 個橙。每個小朋友有幾多粒糖？`,
+        meta: { thinking: true, type, relevant: [totalCandies, groups], distractors: [oranges], target: "每人糖數" }
+      });
+    }
+
+    function randomInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function pick(items) {
+      return items[randomInt(0, items.length - 1)];
+    }
+
+    function shuffle(items) {
+      const copy = [...items];
+      for (let i = copy.length - 1; i > 0; i -= 1) {
+        const j = randomInt(0, i);
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function toSpokenMath(question) {
+      if (question.mode === "story") return question.text;
+      const operationNames = {
+        add: "加",
+        subtract: "減",
+        multiply: "乘",
+        divide: "除以"
+      };
+      return `${question.a} ${operationNames[question.operation]} ${question.b} 等於幾多？`;
+    }
+
+    function equationQuestion(operation, a, b, meta = {}) {
+      const answer = calculate(operation, a, b);
+      return {
+        mode: "equation",
+        operation,
+        a,
+        b,
+        answer,
+        text: `${a} ${symbols[operation]} ${b} = ?`,
+        meta
+      };
+    }
+
+    function calculate(operation, a, b) {
+      if (operation === "add") return a + b;
+      if (operation === "subtract") return a - b;
+      if (operation === "multiply") return a * b;
+      if (operation === "divide") return a / b;
+      throw new Error(`Unknown operation: ${operation}`);
+    }
+
+    function generateEquation(level = state.level) {
+      if (level === "mixed" || level === "thinking") {
+        return generateEquation(pick(["ones", "twos", "multiply", "divide"]));
+      }
+
+      if (level === "ones") {
+        const operation = pick(["add", "subtract"]);
+        let a = randomInt(0, 9);
+        let b = randomInt(0, 9);
+        if (operation === "subtract" && b > a) [a, b] = [b, a];
+        return equationQuestion(operation, a, b, { level, min: 0, max: 9 });
+      }
+
+      if (level === "twos") {
+        const operation = pick(["add", "subtract"]);
+        let a = randomInt(10, 99);
+        let b = randomInt(10, 99);
+        if (operation === "subtract" && b > a) [a, b] = [b, a];
+        return equationQuestion(operation, a, b, { level, min: 10, max: 99 });
+      }
+
+      if (level === "multiply") {
+        const a = randomInt(1, 10);
+        const b = randomInt(1, 10);
+        return equationQuestion("multiply", a, b, { level, min: 1, max: 10 });
+      }
+
+      if (level === "divide") {
+        const divisor = randomInt(2, 10);
+        const quotient = randomInt(1, 10);
+        const dividend = divisor * quotient;
+        return equationQuestion("divide", dividend, divisor, { level, divisor, quotient });
+      }
+
+      throw new Error(`Unknown level: ${level}`);
+    }
+
+    function generateStory(level = state.level) {
+      const operationsByLevel = {
+        ones: ["add", "subtract"],
+        twos: ["add", "subtract"],
+        multiply: ["multiply"],
+        divide: ["divide"],
+        mixed: ["add", "subtract", "multiply", "divide"]
+      };
+      if (level === "thinking") {
+        return generateThinkingStory();
+      }
+      const operation = pick(operationsByLevel[level]);
+
+      if (operation === "add") {
+        const a = randomInt(1, 29);
+        const b = randomInt(1, 30 - a);
+        return storyQuestion({
+          operation,
+          a,
+          b,
+          answer: a + b,
+          text: pick(addStories)(a, b),
+          meta: { maxAnswer: 30 }
+        });
+      }
+
+      if (operation === "subtract") {
+        const a = randomInt(2, 30);
+        const b = randomInt(1, a);
+        return storyQuestion({
+          operation,
+          a,
+          b,
+          answer: a - b,
+          text: pick(subtractStories)(a, b),
+          meta: { maxStart: 30 }
+        });
+      }
+
+      if (operation === "multiply") {
+        const groups = randomInt(2, 6);
+        const each = randomInt(2, 5);
+        return storyQuestion({
+          operation,
+          a: groups,
+          b: each,
+          answer: groups * each,
+          text: pick(multiplyStories)(groups, each),
+          meta: { groups, each, maxAnswer: 30 }
+        });
+      }
+
+      if (operation === "divide") {
+        const groups = randomInt(2, 6);
+        const each = randomInt(2, 5);
+        const total = groups * each;
+        return storyQuestion({
+          operation,
+          a: total,
+          b: groups,
+          answer: each,
+          text: pick(divideStories)(total, groups),
+          meta: { total, groups, maxTotal: 30 }
+        });
+      }
+
+      throw new Error(`Unknown story operation: ${operation}`);
+    }
+
+    function storyQuestion(question) {
+      return {
+        mode: "story",
+        ...question
+      };
+    }
+
+    function generateQuestion() {
+      return state.mode === "story" ? generateStory(state.level) : generateEquation(state.level);
+    }
+
+    function speakSound(type) {
+      if (!state.sound) return;
+      const AudioContext = window.AudioContext || window.webkitAudioContext;
+      if (!AudioContext) return;
+      const ctx = new AudioContext();
+      const now = ctx.currentTime;
+      const gain = ctx.createGain();
+      gain.connect(ctx.destination);
+      gain.gain.setValueAtTime(0.001, now);
+      gain.gain.exponentialRampToValueAtTime(0.14, now + 0.02);
+      gain.gain.exponentialRampToValueAtTime(0.001, now + 0.45);
+
+      const playTone = (frequency, start, duration, wave = "sine") => {
+        const osc = ctx.createOscillator();
+        osc.type = wave;
+        osc.frequency.setValueAtTime(frequency, now + start);
+        osc.connect(gain);
+        osc.start(now + start);
+        osc.stop(now + start + duration);
+      };
+
+      if (type === "correct") {
+        playTone(523.25, 0, 0.12);
+        playTone(659.25, 0.1, 0.12);
+        playTone(783.99, 0.2, 0.18);
+      } else if (type === "wrong") {
+        playTone(220, 0, 0.18, "triangle");
+        playTone(164.81, 0.16, 0.22, "triangle");
+      } else {
+        playTone(392, 0, 0.09);
+        playTone(587.33, 0.08, 0.13);
+      }
+
+      window.setTimeout(() => ctx.close(), 600);
+    }
+
+    function setReadButtonLabel(label = "讀題目") {
+      $("#readBtn").innerHTML = `<svg viewBox="0 0 48 48" aria-hidden="true">
+                <path d="M6 19h9l11-10v30L15 29H6z" fill="#118ab2"/>
+                <path d="M32 17c4 4 4 10 0 14M37 11c8 8 8 18 0 26" fill="none" stroke="#118ab2" stroke-width="5" stroke-linecap="round"/>
+              </svg>
+              ${label}`;
+    }
+
+    function resetReadButtonSoon(delay = 12000) {
+      window.clearTimeout(state.readResetTimer);
+      state.readResetTimer = window.setTimeout(() => setReadButtonLabel(), delay);
+    }
+
+    function getCantoneseVoice() {
+      if (!("speechSynthesis" in window)) return null;
+      const voices = window.speechSynthesis.getVoices();
+      return voices.find((voice) => voice.lang.toLowerCase() === "zh-hk")
+        || voices.find((voice) => /hong kong|cantonese|粵|粤/i.test(`${voice.name} ${voice.lang}`))
+        || voices.find((voice) => voice.lang.toLowerCase().startsWith("zh"));
+    }
+
+    function readQuestion() {
+      const feedback = $("#feedback");
+      if (!state.current || !("speechSynthesis" in window) || !window.SpeechSynthesisUtterance) {
+        feedback.textContent = "呢個瀏覽器未能提供語音讀題。";
+        feedback.className = "feedback wrong";
+        return;
+      }
+
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(toSpokenMath(state.current));
+      const voice = getCantoneseVoice();
+      utterance.lang = voice?.lang || "zh-HK";
+      utterance.voice = voice || null;
+      utterance.rate = 0.78;
+      utterance.pitch = 1.08;
+      utterance.volume = 1;
+      utterance.onstart = () => {
+        setReadButtonLabel("讀緊...");
+        resetReadButtonSoon();
+      };
+      utterance.onend = () => {
+        window.clearTimeout(state.readResetTimer);
+        setReadButtonLabel();
+      };
+      utterance.onerror = () => {
+        window.clearTimeout(state.readResetTimer);
+        setReadButtonLabel();
+        feedback.textContent = "語音暫時讀唔到，請再試一次。";
+        feedback.className = "feedback wrong";
+      };
+      window.speechSynthesis.speak(utterance);
+    }
+
+    function setQuestion() {
+      state.current = generateQuestion();
+      state.answered = false;
+      const questionText = $("#questionText");
+      const label = $("#practice-title");
+      const feedback = $("#feedback");
+      questionText.textContent = state.current.text;
+      questionText.classList.toggle("story", state.current.mode === "story");
+      label.textContent = `${state.current.mode === "story" ? "文字題" : "算式練習"}：${levelNames[state.level]}`;
+      $("#answerInput").value = "";
+      feedback.textContent = "輸入答案，然後按輸入。";
+      feedback.className = "feedback";
+      $("#questionWrap").classList.remove("celebrate");
+      window.clearTimeout(state.readResetTimer);
+      setReadButtonLabel();
+      if ("speechSynthesis" in window) window.speechSynthesis.cancel();
+      $("#answerInput").focus();
+      speakSound("next");
+    }
+
+    function updateScore() {
+      $("#rightCount").textContent = state.score.right;
+      $("#tryCount").textContent = state.score.tries;
+      $("#streakCount").textContent = state.score.streak;
+    }
+
+    function checkAnswer() {
+      if (!state.current || state.answered) return;
+      const raw = $("#answerInput").value.trim();
+      const feedback = $("#feedback");
+      if (raw === "") {
+        feedback.textContent = "請先輸入答案。";
+        feedback.className = "feedback wrong";
+        speakSound("wrong");
+        return;
+      }
+
+      const userAnswer = Number(raw);
+      if (!Number.isInteger(userAnswer) || userAnswer < 0) {
+        feedback.textContent = "請輸入 0 或正整數。";
+        feedback.className = "feedback wrong";
+        speakSound("wrong");
+        return;
+      }
+
+      state.answered = true;
+      state.score.tries += 1;
+
+      if (userAnswer === state.current.answer) {
+        state.score.right += 1;
+        state.score.streak += 1;
+        feedback.textContent = "答啱！好叻！";
+        feedback.className = "feedback correct";
+        $("#questionWrap").classList.add("celebrate");
+        speakSound("correct");
+      } else {
+        state.score.streak = 0;
+        feedback.textContent = `差少少，答案係 ${state.current.answer}。`;
+        feedback.className = "feedback wrong";
+        speakSound("wrong");
+      }
+
+      updateScore();
+    }
+
+    function resetScore() {
+      state.score = { right: 0, tries: 0, streak: 0 };
+      updateScore();
+      $("#feedback").textContent = "分數已重設，繼續加油。";
+      $("#feedback").className = "feedback";
+      setQuestion();
+    }
+
+    function setMode(mode) {
+      state.mode = mode;
+      if (mode === "equation" && state.level === "thinking") {
+        state.level = "mixed";
+        $$(".difficulty-btn").forEach((button) => {
+          button.classList.toggle("active", button.dataset.level === state.level);
+        });
+      }
+      $$(".tab-btn").forEach((button) => {
+        const active = button.dataset.mode === mode;
+        button.classList.toggle("active", active);
+        button.setAttribute("aria-pressed", String(active));
+      });
+      setQuestion();
+    }
+
+    function setLevel(level) {
+      state.level = level;
+      $$(".difficulty-btn").forEach((button) => {
+        button.classList.toggle("active", button.dataset.level === level);
+      });
+      if (level === "thinking" && state.mode !== "story") {
+        setMode("story");
+        return;
+      }
+      setQuestion();
+    }
+
+    $$(".tab-btn").forEach((button) => {
+      button.addEventListener("click", () => setMode(button.dataset.mode));
+    });
+
+    $$(".difficulty-btn").forEach((button) => {
+      button.addEventListener("click", () => setLevel(button.dataset.level));
+    });
+
+    $("#checkBtn").addEventListener("click", checkAnswer);
+    $("#nextBtn").addEventListener("click", setQuestion);
+    $("#readBtn").addEventListener("click", readQuestion);
+    $("#resetBtn").addEventListener("click", resetScore);
+    $("#soundToggle").addEventListener("click", () => {
+      state.sound = !state.sound;
+      $("#soundToggle").textContent = state.sound ? "聲效開" : "聲效關";
+      $("#soundToggle").setAttribute("aria-pressed", String(state.sound));
+      if (state.sound) speakSound("next");
+    });
+
+    $("#answerInput").addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        checkAnswer();
+      }
+    });
+
+    $$(".keypad button").forEach((button) => {
+      button.addEventListener("click", () => {
+        const input = $("#answerInput");
+        if (button.dataset.action === "backspace") {
+          input.value = input.value.slice(0, -1);
+        } else {
+          input.value += button.dataset.key;
+        }
+        input.focus();
+      });
+    });
+
+    window.oceanMathTest = {
+      calculate,
+      generateEquation,
+      generateStory,
+      generateThinkingStory,
+      toSpokenMath,
+      randomInt
+    };
+
+    if ("speechSynthesis" in window) {
+      window.speechSynthesis.onvoiceschanged = getCantoneseVoice;
+    }
+
+    updateScore();
+    setQuestion();
+  </script>
+</body>
+</html>
