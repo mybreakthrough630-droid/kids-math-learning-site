@@ -725,7 +725,7 @@
             </button>
             <button class="tool-btn primary" id="nextBtn" type="button">
               <span class="tool-icon" aria-hidden="true">→</span>
-              下一題
+              隨機下一題
             </button>
           </div>
         </section>
@@ -1997,14 +1997,20 @@
             explain: `第一個用 4 根，其後 ${squares - 1} 個各加 3 根：4 + ${squares - 1} x 3 = ${answer} 根。`
           });
         },
-        () => item({
-          question: "一個 4 格乘 4 格的大方格，一共有幾多個不同大小的正方形？",
-          visualItems: ["4x4 方格", "先小後大"],
-          options: numberOptions(30, [16, 25, 29]),
-          answer: 30,
-          hint: "分開數 1x1、2x2、3x3 和 4x4 的正方形。",
-          explain: "1x1 有 16 個，2x2 有 9 個，3x3 有 4 個，4x4 有 1 個；16 + 9 + 4 + 1 = 30。"
-        })
+        () => {
+          const size = choice([4, 5]);
+          const counts = Array.from({ length: size }, (_, index) => (size - index) ** 2);
+          const answer = counts.reduce((total, count) => total + count, 0);
+          const sizeNames = counts.map((count, index) => `${index + 1}x${index + 1} 有 ${count} 個`);
+          return item({
+            question: `一個 ${size} 格乘 ${size} 格的大方格，一共有幾多個不同大小的正方形？`,
+            visualItems: [`${size}x${size} 方格`, "先小後大"],
+            options: numberOptions(answer, [size * size, answer - 1, answer - size]),
+            answer,
+            hint: `分開數 1x1、2x2，一直數到 ${size}x${size} 的正方形。`,
+            explain: `${sizeNames.join("，")}；${counts.join(" + ")} = ${answer}。`
+          });
+        }
       ],
       [
         () => {
@@ -2213,7 +2219,16 @@
 
     function renderQuestion() {
       const topic = TOPICS[topicIndex];
-      currentItem = createQuestion(topicIndex, levelIndex);
+      const previousKey = currentItem
+        ? `${currentItem.question}|${(currentItem.visualItems || []).join("|")}|${currentItem.answer}`
+        : "";
+      let nextItem = createQuestion(topicIndex, levelIndex);
+      for (let attempt = 0; attempt < 12; attempt += 1) {
+        const nextKey = `${nextItem.question}|${(nextItem.visualItems || []).join("|")}|${nextItem.answer}`;
+        if (nextKey !== previousKey) break;
+        nextItem = createQuestion(topicIndex, levelIndex);
+      }
+      currentItem = nextItem;
       const item = currentItem;
       topicTitle.textContent = topic.title;
       topicNumber.textContent = `第 ${topicIndex + 1} 類`;
@@ -2266,11 +2281,11 @@
 
     function nextQuestion() {
       playTone("tap");
-      if (levelIndex < 4) {
-        levelIndex += 1;
-      } else {
-        levelIndex = 0;
-        topicIndex = (topicIndex + 1) % TOPICS.length;
+      const previousTopic = topicIndex;
+      if (TOPICS.length > 1) {
+        do {
+          topicIndex = rand(0, TOPICS.length - 1);
+        } while (topicIndex === previousTopic);
       }
       renderQuestion();
     }
@@ -2330,6 +2345,7 @@
       TOPICS.forEach((topic, topicNo) => {
         if (RANDOM_QUESTION_GENERATORS[topicNo].length !== 5) errors.push(`${topic.title} 不是 5 個難度`);
         RANDOM_QUESTION_GENERATORS[topicNo].forEach((_, levelNo) => {
+          const generatedKeys = new Set();
           for (let sample = 0; sample < 500; sample += 1) {
             let generated;
             try {
@@ -2348,7 +2364,9 @@
             if ([...generated.question].length > 100) errors.push(`${topicNo + 1}-${levelNo + 1} 題目太長`);
             if (generated.options.some(option => /NaN|undefined|null/.test(option))) errors.push(`${topicNo + 1}-${levelNo + 1} 選項資料錯誤`);
             if (/NaN|undefined|null/.test(`${generated.question}${generated.hint}${generated.explain}`)) errors.push(`${topicNo + 1}-${levelNo + 1} 題目文字錯誤`);
+            generatedKeys.add(`${generated.question}|${generated.visualItems.join("|")}|${generated.answer}`);
           }
+          if (generatedKeys.size < 2) errors.push(`${topicNo + 1}-${levelNo + 1} 題目沒有隨機變化`);
         });
       });
       if (errors.length) {
