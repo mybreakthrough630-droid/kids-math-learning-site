@@ -51,10 +51,10 @@
       width: min(1280px, 100%);
       min-height: 100vh;
       margin: 0 auto;
-      padding: 18px;
+      padding: 14px;
       display: grid;
       grid-template-rows: auto auto minmax(620px, 1fr);
-      gap: 14px;
+      gap: 10px;
     }
 
     header {
@@ -66,16 +66,16 @@
 
     h1 {
       margin: 0;
-      font-size: clamp(38px, 7vw, 72px);
-      line-height: 1;
+      font-size: clamp(30px, 4.5vw, 46px);
+      line-height: 1.05;
       letter-spacing: 0;
       overflow-wrap: anywhere;
     }
 
     .subtitle {
-      margin: 10px 0 0;
+      margin: 5px 0 0;
       color: var(--muted);
-      font-size: clamp(20px, 3vw, 30px);
+      font-size: clamp(17px, 2.1vw, 22px);
       font-weight: 900;
       line-height: 1.25;
     }
@@ -89,13 +89,13 @@
     .mascot {
       display: grid;
       place-items: center;
-      width: clamp(58px, 9vw, 96px);
-      height: clamp(58px, 9vw, 96px);
+      width: clamp(48px, 6vw, 64px);
+      height: clamp(48px, 6vw, 64px);
       border: 3px solid rgba(32, 48, 66, 0.16);
       border-radius: 50%;
       background: #ffffff;
       box-shadow: 0 8px 0 rgba(32, 48, 66, 0.08);
-      font-size: clamp(32px, 5vw, 54px);
+      font-size: clamp(26px, 3.5vw, 38px);
       font-weight: 950;
       line-height: 1;
       animation: floaty 4s ease-in-out infinite;
@@ -113,8 +113,8 @@
     .switcher {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-      padding: 12px;
+      gap: 8px;
+      padding: 8px;
       border: 2px solid var(--line);
       border-radius: var(--radius);
       background: var(--panel);
@@ -122,14 +122,14 @@
     }
 
     button {
-      min-height: 82px;
-      padding: 12px;
+      min-height: 64px;
+      padding: 9px;
       border: 3px solid rgba(32, 48, 66, 0.16);
       border-radius: var(--radius);
       background: #ffffff;
       color: var(--ink);
       font: inherit;
-      font-size: clamp(22px, 3.4vw, 36px);
+      font-size: clamp(19px, 2.6vw, 28px);
       font-weight: 950;
       line-height: 1.12;
       cursor: pointer;
@@ -179,7 +179,7 @@
     iframe {
       display: block;
       width: 100%;
-      height: min(1120px, calc(100vh - 220px));
+      height: min(1120px, calc(100vh - 180px));
       min-height: 620px;
       border: 0;
       background: #ffffff;
@@ -208,13 +208,12 @@
         grid-template-rows: auto auto minmax(560px, 1fr);
       }
 
-      header,
-      .switcher {
+      header {
         grid-template-columns: 1fr;
       }
 
       .mascots {
-        justify-content: center;
+        display: none;
       }
 
       iframe,
@@ -223,7 +222,7 @@
       }
 
       iframe {
-        height: calc(100vh - 260px);
+        height: calc(100vh - 190px);
       }
     }
   </style>
@@ -233,7 +232,7 @@
     <header>
       <div>
         <h1>小朋友數學學習樂園</h1>
-        <p class="subtitle">海洋基礎數學 + 一年級奧數，兩個互動練習合併到同一個入口。</p>
+        <p class="subtitle">基礎數學與一年級奧數互動練習。</p>
       </div>
       <div class="mascots" aria-hidden="true">
         <span class="mascot">+</span>

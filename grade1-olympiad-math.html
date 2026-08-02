@@ -52,7 +52,7 @@
     main {
       width: min(1220px, 100%);
       margin: 0 auto;
-      padding: 18px;
+      padding: 12px 16px 18px;
     }
 
     header {
@@ -60,21 +60,21 @@
       grid-template-columns: minmax(0, 1fr) auto;
       gap: 16px;
       align-items: center;
-      padding: 8px 0 18px;
+      padding: 4px 0 10px;
     }
 
     h1 {
       margin: 0;
-      font-size: clamp(38px, 7vw, 76px);
-      line-height: 1;
+      font-size: clamp(30px, 4.8vw, 46px);
+      line-height: 1.05;
       letter-spacing: 0;
       overflow-wrap: anywhere;
     }
 
     .subtitle {
-      margin: 10px 0 0;
+      margin: 4px 0 0;
       color: #36566f;
-      font-size: clamp(20px, 3vw, 30px);
+      font-size: clamp(17px, 2.2vw, 22px);
       font-weight: 900;
       line-height: 1.25;
     }
@@ -86,8 +86,8 @@
     }
 
     .mascot {
-      width: clamp(76px, 11vw, 126px);
-      height: clamp(76px, 11vw, 126px);
+      width: clamp(50px, 6vw, 68px);
+      height: clamp(50px, 6vw, 68px);
       filter: drop-shadow(0 10px 10px rgba(32, 48, 66, 0.14));
       animation: bob 4s ease-in-out infinite;
     }
@@ -119,8 +119,8 @@
     }
 
     .workspace {
-      min-height: 680px;
-      padding: clamp(18px, 3vw, 30px);
+      min-height: 620px;
+      padding: clamp(14px, 2.2vw, 22px);
     }
 
     .side {
@@ -135,7 +135,7 @@
       gap: 10px;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 18px;
+      margin-bottom: 11px;
     }
 
     .score-strip {
@@ -143,8 +143,17 @@
       flex-wrap: wrap;
       gap: 8px;
       align-items: center;
+      min-width: 0;
       font-size: clamp(20px, 3vw, 28px);
       font-weight: 900;
+    }
+
+    #scoreDots {
+      display: flex;
+      flex: 1 1 260px;
+      flex-wrap: wrap;
+      gap: 4px;
+      min-width: 0;
     }
 
     .score-dot {
@@ -215,7 +224,7 @@
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
-      margin-bottom: 16px;
+      margin-bottom: 10px;
     }
 
     .tag {
@@ -239,18 +248,18 @@
     }
 
     h2 {
-      margin: 0 0 12px;
+      margin: 0 0 7px;
       color: #1f425d;
-      font-size: clamp(30px, 5vw, 50px);
+      font-size: clamp(27px, 3.8vw, 38px);
       line-height: 1.06;
       letter-spacing: 0;
       overflow-wrap: anywhere;
     }
 
     .method {
-      margin: 0 0 18px;
+      margin: 0 0 11px;
       color: var(--muted);
-      font-size: clamp(20px, 3vw, 28px);
+      font-size: clamp(17px, 2.2vw, 22px);
       font-weight: 800;
       line-height: 1.32;
       overflow-wrap: anywhere;
@@ -258,8 +267,8 @@
 
     .question-card {
       display: grid;
-      gap: 14px;
-      padding: clamp(16px, 3vw, 24px);
+      gap: 10px;
+      padding: clamp(13px, 2.2vw, 19px);
       border: 3px solid #cfe2f0;
       border-radius: var(--radius);
       background:
@@ -268,7 +277,7 @@
 
     .question-text {
       margin: 0;
-      font-size: clamp(30px, 4vw, 48px);
+      font-size: clamp(28px, 3.5vw, 40px);
       font-weight: 950;
       line-height: 1.18;
       letter-spacing: 0;
@@ -277,7 +286,7 @@
     }
 
     .question-text.long {
-      font-size: clamp(26px, 3.25vw, 40px);
+      font-size: clamp(24px, 2.8vw, 32px);
       line-height: 1.24;
     }
 
@@ -422,21 +431,39 @@
 
     .difficulty {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
+      grid-template-columns: repeat(5, 1fr);
       gap: 8px;
-      margin-bottom: 16px;
+      margin: 0;
     }
 
     .difficulty button {
-      min-height: 62px;
-      padding: 6px;
-      font-size: 24px;
+      min-height: 54px;
+      padding: 5px 2px;
+      font-size: 18px;
       background: #f8fbff;
     }
 
     .difficulty button.active {
       background: #ffe38a;
       border-color: #d99a20;
+    }
+
+    .level-picker {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 12px;
+      padding: 10px 12px;
+      border: 2px solid #cfe2f0;
+      border-radius: var(--radius);
+      background: #f4fbff;
+    }
+
+    .level-picker strong {
+      color: #36566f;
+      font-size: 19px;
+      white-space: nowrap;
     }
 
     .topic-list {
@@ -541,7 +568,6 @@
 
       .side {
         position: static;
-        order: -1;
       }
 
       .topic-list {
@@ -554,11 +580,11 @@
       }
 
       .question-text {
-        font-size: clamp(30px, 5.6vw, 48px);
+        font-size: clamp(28px, 5vw, 40px);
       }
 
       .question-text.long {
-        font-size: clamp(26px, 4.7vw, 38px);
+        font-size: clamp(24px, 4.2vw, 32px);
       }
     }
 
@@ -576,6 +602,21 @@
 
       .toolbar {
         display: grid;
+        min-width: 0;
+      }
+
+      .workspace,
+      .question-card,
+      .score-strip { min-width: 0; }
+
+      .level-picker {
+        grid-template-columns: 1fr;
+        gap: 7px;
+      }
+
+      .score-dot {
+        width: 38px;
+        height: 38px;
       }
 
       .tool-btn {
@@ -583,12 +624,14 @@
       }
 
       .question-text {
-        font-size: clamp(28px, 9vw, 44px);
+        font-size: clamp(27px, 8vw, 38px);
       }
 
       .question-text.long {
-        font-size: clamp(24px, 7.4vw, 34px);
+        font-size: clamp(23px, 6.5vw, 30px);
       }
+
+      .mascot-row { display: none; }
 
       .shape {
         min-width: clamp(50px, 18vw, 74px);
@@ -610,7 +653,7 @@
     <header>
       <div>
         <h1>一年級奧數小樂園</h1>
-        <p class="subtitle">12 大常見題型，三個難度，大字、聲效、卡通圖案，適合 6 歲小朋友慢慢玩。</p>
+        <p class="subtitle">12大常見題型，五個難度，適合6歲小朋友。</p>
       </div>
       <div class="mascot-row" aria-hidden="true">
         <svg class="mascot" viewBox="0 0 120 120" role="img">
@@ -647,6 +690,17 @@
               <span class="tool-icon" aria-hidden="true">♫</span>
               聲效開
             </button>
+          </div>
+        </div>
+
+        <div class="level-picker">
+          <strong>自由選擇難度</strong>
+          <div class="difficulty" role="group" aria-label="難度">
+            <button type="button" data-level="0" class="active">一星</button>
+            <button type="button" data-level="1">二星</button>
+            <button type="button" data-level="2">三星</button>
+            <button type="button" data-level="3">四星</button>
+            <button type="button" data-level="4">五星</button>
           </div>
         </div>
 
@@ -694,11 +748,6 @@
 
       <aside class="side">
         <h3>揀題型</h3>
-        <div class="difficulty" role="group" aria-label="難度">
-          <button type="button" data-level="0" class="active">一星</button>
-          <button type="button" data-level="1">二星</button>
-          <button type="button" data-level="2">三星</button>
-        </div>
         <div class="topic-list" id="topicList"></div>
       </aside>
     </section>
@@ -1704,11 +1753,386 @@
       ]
     ];
 
+    const ADVANCED_QUESTION_GENERATORS = [
+      [
+        () => {
+          const step = rand(2, 5);
+          const start = rand(38, 65);
+          const sequence = Array.from({ length: 5 }, (_, index) => start - index * step);
+          const blank = rand(1, 3);
+          const answer = sequence[blank];
+          const shown = sequence.map((value, index) => index === blank ? "□" : value);
+          return item({
+            question: `${shown.join("，")}。每次減 ${step}，□ 是幾多？`,
+            visualItems: shown.map(String),
+            options: numberOptions(answer, [answer - step, answer + step, answer + 1]),
+            answer,
+            hint: `由左至右，每次減 ${step}。`,
+            explain: `完整次序是 ${sequence.join("、")}，所以 □ = ${answer}。`
+          });
+        },
+        () => {
+          const tens = rand(2, 7);
+          const goUp = Math.random() < 0.5;
+          const difference = rand(1, Math.min(3, goUp ? 9 - tens : tens));
+          const ones = goUp ? tens + difference : tens - difference;
+          const answer = tens * 10 + ones;
+          return item({
+            question: `一個兩位數有 ${tens} 個十，個位數字比十位數字${goUp ? "大" : "小"} ${difference}。這個數是幾多？`,
+            visualItems: [`十位 ${tens}`, `個位 ?`, `${goUp ? "+" : "-"}${difference}`],
+            options: numberOptions(answer, [tens * 10 + difference, ones * 10 + tens, answer + 10]),
+            answer,
+            hint: `十位是 ${tens}；先找出個位數字。`,
+            explain: `個位是 ${tens} ${goUp ? "+" : "-"} ${difference} = ${ones}，所以這個數是 ${answer}。`
+          });
+        }
+      ],
+      [
+        () => {
+          const start = rand(12, 35);
+          const add = rand(6, 15);
+          const subtract = rand(4, Math.min(14, start + add - 5));
+          const result = start + add - subtract;
+          return item({
+            question: `□ + ${add} - ${subtract} = ${result}。□ 是幾多？`,
+            visualItems: ["?", "+", add, "-", subtract, "=", result],
+            options: numberOptions(start, [result - add, result + subtract, start + add]),
+            answer: start,
+            hint: `由 ${result} 倒轉計：先加回 ${subtract}，再減 ${add}。`,
+            explain: `${result} + ${subtract} - ${add} = ${start}，所以 □ = ${start}。`
+          });
+        },
+        () => {
+          const a = rand(14, 35);
+          const b = rand(8, 24);
+          const total = a + b;
+          const c = rand(6, total - 5);
+          const answer = total - c;
+          return item({
+            question: `${a} + ${b} = □ + ${c}。□ 是幾多？`,
+            visualItems: [a, "+", b, "=", "?", "+", c],
+            options: numberOptions(answer, [total, answer + c, Math.abs(a - b)]),
+            answer,
+            hint: `先計左邊共有幾多，再減去右邊的 ${c}。`,
+            explain: `${a} + ${b} = ${total}；${total} - ${c} = ${answer}，所以 □ = ${answer}。`
+          });
+        }
+      ],
+      [
+        () => {
+          const start = rand(12, 30);
+          const received = rand(5, 12);
+          const gave = rand(3, 10);
+          const now = start + received - gave;
+          return item({
+            question: `樂樂原有一些貼紙，收到 ${received} 張，再送出 ${gave} 張，現在有 ${now} 張。原有幾多張？`,
+            visualItems: ["原有 ?", `+${received}`, `-${gave}`, `剩${now}`],
+            options: numberOptions(start, [now - received, now + received, start + gave]),
+            answer: start,
+            hint: `由現在倒轉計：加回送出的，再減收到的。`,
+            explain: `${now} + ${gave} - ${received} = ${start}，所以原有 ${start} 張。`
+          });
+        },
+        () => {
+          const first = rand(8, 18);
+          const more = rand(4, 9);
+          const second = first + more;
+          const less = rand(2, Math.min(7, second - 3));
+          const third = second - less;
+          const answer = first + second + third;
+          return item({
+            question: `安安有 ${first} 粒波。波波比安安多 ${more} 粒，詩詩比波波少 ${less} 粒。三人共有幾多粒？`,
+            visualItems: [`安安 ${first}`, `波波 +${more}`, `詩詩 -${less}`],
+            options: numberOptions(answer, [first + second, second + third, answer - more]),
+            answer,
+            hint: "先分別找出波波和詩詩有幾多粒，再把三人的加起來。",
+            explain: `波波有 ${first} + ${more} = ${second} 粒；詩詩有 ${second} - ${less} = ${third} 粒；合共 ${first} + ${second} + ${third} = ${answer} 粒。`
+          });
+        }
+      ],
+      [
+        () => {
+          const addA = rand(2, 4);
+          const addB = rand(addA + 1, addA + 4);
+          const sequence = [rand(1, 6)];
+          for (let index = 0; index < 5; index += 1) {
+            sequence.push(sequence[index] + (index % 2 === 0 ? addA : addB));
+          }
+          const answer = sequence[5];
+          return item({
+            question: `${sequence.slice(0, 5).join("，")}，□。輪流加 ${addA}、加 ${addB}，□ 是幾多？`,
+            visualItems: [`+${addA}`, `+${addB}`, `+${addA}`, `+${addB}`, `+${addA}`],
+            options: numberOptions(answer, [answer - addA, answer - addB, answer + addB]),
+            answer,
+            hint: `加法規律是 +${addA}、+${addB}、+${addA}、+${addB}……`,
+            explain: `上一個數 ${sequence[4]} 要加 ${addA}，所以 ${sequence[4]} + ${addA} = ${answer}。`
+          });
+        },
+        () => {
+          const oddStart = rand(1, 5);
+          const evenStart = rand(9, 15);
+          const oddStep = rand(2, 4);
+          const evenStep = rand(3, 5);
+          const sequence = [
+            oddStart, evenStart,
+            oddStart + oddStep, evenStart + evenStep,
+            oddStart + oddStep * 2, evenStart + evenStep * 2
+          ];
+          const answer = oddStart + oddStep * 3;
+          return item({
+            question: `${sequence.join("，")}，□。第 1、3、5、7 個數自成一組，□ 是幾多？`,
+            visualItems: [`奇數位置 +${oddStep}`, `偶數位置 +${evenStep}`],
+            options: numberOptions(answer, [sequence[5] + evenStep, answer - oddStep, answer + evenStep]),
+            answer,
+            hint: `只看第 1、3、5 個數：${sequence[0]}、${sequence[2]}、${sequence[4]}。`,
+            explain: `第 1、3、5、7 個數每次加 ${oddStep}：${sequence[0]}、${sequence[2]}、${sequence[4]}、${answer}。`
+          });
+        }
+      ],
+      [
+        () => {
+          const [a, b] = shuffle(SHAPE_WORDS).slice(0, 2);
+          const sequence = [a, a, b, a, a, b, a, a];
+          const answer = b.word;
+          return item({
+            question: `${sequence.map(shape => shape.word).join("、")}、□。每 3 個一組，□ 是？`,
+            visualItems: [...sequence.map(shape => shape.token), "?"],
+            options: textOptions(answer, SHAPE_WORDS.map(shape => shape.word).concat(["星"])),
+            answer,
+            hint: `每組是 ${a.word}、${a.word}、${b.word}。`,
+            explain: `兩個${a.word}後面有一個${b.word}，所以 □ 是${answer}。`
+          });
+        },
+        () => {
+          const start = rand(1, 3);
+          const step = rand(1, 3);
+          const rows = rand(4, 6);
+          const counts = Array.from({ length: rows }, (_, index) => start + index * step);
+          const answer = counts.reduce((sum, value) => sum + value, 0);
+          return item({
+            question: `第 1 行有 ${start} 粒，每下一行多 ${step} 粒。頭 ${rows} 行一共有幾多粒？`,
+            visualItems: counts.map((count, index) => `第${index + 1}行 ${count}`),
+            options: numberOptions(answer, [counts[rows - 1], answer - counts[0], answer + step]),
+            answer,
+            hint: `先寫出每行數量，再把 ${rows} 行加起來。`,
+            explain: `${counts.join(" + ")} = ${answer}，所以頭 ${rows} 行共有 ${answer} 粒。`
+          });
+        }
+      ],
+      [
+        () => {
+          const front = rand(3, 9);
+          const back = rand(3, 9);
+          const answer = front + back - 1;
+          return item({
+            question: `小晴從前數第 ${front}，從後數第 ${back}。這一隊共有幾多人？`,
+            visualItems: [`前面第 ${front}`, "小晴", `後面第 ${back}`],
+            options: numberOptions(answer, [front + back, answer - 1, Math.max(front, back)]),
+            answer,
+            hint: "把前數和後數的位置相加，小晴被數了兩次，要減 1。",
+            explain: `${front} + ${back} - 1 = ${answer}，所以共有 ${answer} 人。`
+          });
+        },
+        () => {
+          const total = rand(16, 25);
+          const firstPos = rand(3, 8);
+          const between = rand(2, 5);
+          const secondPos = firstPos + between + 1;
+          const answer = total - secondPos + 1;
+          return item({
+            question: `${total} 人排隊，安安從前數第 ${firstPos}。波波在安安後面，中間隔 ${between} 人。波波從後數第幾？`,
+            visualItems: ["前", `安安 ${firstPos}`, `${between}人`, "波波", "後"],
+            options: numberOptions(answer, [total - secondPos, answer + between, secondPos]),
+            answer,
+            hint: `波波從前數第 ${firstPos} + ${between} + 1 位。`,
+            explain: `波波從前數第 ${secondPos}；從後數是 ${total} - ${secondPos} + 1 = 第 ${answer}。`
+          });
+        }
+      ],
+      [
+        () => {
+          const groups = rand(3, 6);
+          const each = rand(3, 5);
+          const extra = rand(1, each - 1);
+          const answer = groups * each + extra;
+          return item({
+            question: `有 ${groups} 盒貼紙，每盒 ${each} 張，另外還有 ${extra} 張。一共有幾多張？`,
+            visualItems: [...Array(groups).fill(`每盒${each}`), `另外${extra}`],
+            options: numberOptions(answer, [groups * each, groups + each + extra, answer - each]),
+            answer,
+            hint: `先計 ${groups} 盒有幾多，再加另外的 ${extra} 張。`,
+            explain: `${groups} x ${each} + ${extra} = ${groups * each} + ${extra} = ${answer} 張。`
+          });
+        },
+        () => {
+          const each = rand(3, 6);
+          const fullBoxes = rand(3, 7);
+          const left = rand(1, each - 1);
+          const total = fullBoxes * each + left;
+          const answer = `${fullBoxes} 盒，剩 ${left} 個`;
+          return item({
+            question: `${total} 個蘋果，每盒放 ${each} 個。可以放滿幾盒，還剩幾個？`,
+            visualItems: [`共${total}個`, `每盒${each}個`, "?盒", "剩?"],
+            options: textOptions(answer, [
+              `${fullBoxes + 1} 盒，剩 ${left} 個`,
+              `${fullBoxes} 盒，剩 ${each - left} 個`,
+              `${Math.max(1, fullBoxes - 1)} 盒，剩 ${left + each} 個`
+            ]),
+            answer,
+            hint: `每次拿 ${each} 個放一盒，看看可以完整拿幾次。`,
+            explain: `${fullBoxes} 盒用了 ${fullBoxes * each} 個；${total} - ${fullBoxes * each} = ${left}，所以放滿 ${fullBoxes} 盒，剩 ${left} 個。`
+          });
+        }
+      ],
+      [
+        () => {
+          const squares = rand(3, 6);
+          const answer = 4 + (squares - 1) * 3;
+          return item({
+            question: `${squares} 個正方形排成一直行，相鄰兩個共用一條邊。一共要幾多根小棒？`,
+            visualItems: Array.from({ length: squares }, (_, index) => `方格${index + 1}`),
+            options: numberOptions(answer, [squares * 4, answer - 1, answer + 3]),
+            answer,
+            hint: "第一個正方形要 4 根，其後每加一個只需多 3 根。",
+            explain: `第一個用 4 根，其後 ${squares - 1} 個各加 3 根：4 + ${squares - 1} x 3 = ${answer} 根。`
+          });
+        },
+        () => item({
+          question: "一個 4 格乘 4 格的大方格，一共有幾多個不同大小的正方形？",
+          visualItems: ["4x4 方格", "先小後大"],
+          options: numberOptions(30, [16, 25, 29]),
+          answer: 30,
+          hint: "分開數 1x1、2x2、3x3 和 4x4 的正方形。",
+          explain: "1x1 有 16 個，2x2 有 9 個，3x3 有 4 個，4x4 有 1 個；16 + 9 + 4 + 1 = 30。"
+        })
+      ],
+      [
+        () => {
+          const budget = choice([20, 25, 30]);
+          const first = rand(4, 9);
+          const second = rand(3, Math.min(9, budget - first - 3));
+          const answer = budget - first - second;
+          return item({
+            question: `有 ${budget} 元，買簿用了 ${first} 元，再買筆用了 ${second} 元。找回幾多元？`,
+            visualItems: [`${budget}元`, `簿${first}元`, `筆${second}元`, "找?"],
+            options: numberOptions(answer, [budget - first, budget - second, first + second]),
+            answer,
+            hint: "先把兩件物品的價錢加起來，再用付款減去總價。",
+            explain: `總價是 ${first} + ${second} = ${first + second} 元；${budget} - ${first + second} = ${answer} 元。`
+          });
+        },
+        () => {
+          const budget = choice([30, 40, 50]);
+          const pencil = rand(3, 7);
+          const eraser = rand(4, 9);
+          const total = pencil * 2 + eraser;
+          const answer = budget - total;
+          return item({
+            question: `兩支鉛筆每支 ${pencil} 元，一塊擦膠 ${eraser} 元。付 ${budget} 元，找回幾多？`,
+            visualItems: [`鉛筆${pencil}元`, `鉛筆${pencil}元`, `擦膠${eraser}元`, `付${budget}元`],
+            options: numberOptions(answer, [budget - pencil - eraser, total, answer + pencil]),
+            answer,
+            hint: "有兩支鉛筆，要把鉛筆價錢加兩次。",
+            explain: `總價是 ${pencil} + ${pencil} + ${eraser} = ${total} 元；${budget} - ${total} = ${answer} 元。`
+          });
+        }
+      ],
+      [
+        () => {
+          const icons = rand(2, 6);
+          const answer = icons * 2;
+          return item({
+            question: `圖表中每個 ★ 代表 2 人。${"★".repeat(icons)} 代表幾多人？`,
+            visualItems: Array(icons).fill("★ = 2人"),
+            options: numberOptions(answer, [icons, answer - 2, answer + 2]),
+            answer,
+            hint: `有 ${icons} 個 ★，每個代表 2 人。`,
+            explain: `${Array(icons).fill(2).join(" + ")} = ${answer}，所以代表 ${answer} 人。`
+          });
+        },
+        () => {
+          const red = rand(6, 12);
+          const blue = rand(5, 11);
+          const yellow = rand(3, Math.min(10, red + blue - 2));
+          const answer = red + blue - yellow;
+          return item({
+            question: `紅隊有 ${red} 分，藍隊有 ${blue} 分，黃隊有 ${yellow} 分。紅、藍兩隊合共比黃隊多幾分？`,
+            visualItems: [`紅 ${red}`, `藍 ${blue}`, `黃 ${yellow}`],
+            options: numberOptions(answer, [red + blue, red - yellow, answer + yellow]),
+            answer,
+            hint: "先把紅隊和藍隊分數加起來，再減黃隊分數。",
+            explain: `紅、藍合共 ${red} + ${blue} = ${red + blue} 分；${red + blue} - ${yellow} = ${answer} 分。`
+          });
+        }
+      ],
+      [
+        () => {
+          const names = shuffle(["安安", "波波", "詩詩"]);
+          const colors = shuffle(["紅色", "藍色", "黃色"]);
+          const answer = colors[1];
+          return item({
+            question: `${names.join("、")}各用一種不同顏色。${names[0]}不是${colors[1]}，也不是${colors[2]}；${names[1]}不是${colors[1]}。${names[2]}用甚麼色？`,
+            visualItems: [`${names[0]} ?`, `${names[1]} ?`, `${names[2]} ?`],
+            options: textOptions(answer, ["紅色", "藍色", "黃色", "綠色"]),
+            answer,
+            hint: `先找出${names[0]}的顏色，再找${names[1]}，最後剩下的就是${names[2]}。`,
+            explain: `${names[0]}只能用${colors[0]}；${names[1]}不能用${colors[1]}，所以用${colors[2]}；${names[2]}用剩下的${answer}。`
+          });
+        },
+        () => {
+          const names = shuffle(["安安", "波波", "詩詩", "樂樂"]);
+          const answer = names[3];
+          return item({
+            question: `${names[0]}比${names[1]}大，${names[1]}比${names[2]}大，${names[3]}又比${names[0]}大。誰最大？`,
+            visualItems: [names[3], ">", names[0], ">", names[1], ">", names[2]],
+            options: shuffle(names),
+            answer,
+            hint: `先排 ${names[0]}、${names[1]}、${names[2]}，再放入${names[3]}。`,
+            explain: `${names[3]} > ${names[0]} > ${names[1]} > ${names[2]}，所以${answer}最大。`
+          });
+        }
+      ],
+      [
+        () => {
+          const firstLeg = rand(2, 4);
+          const secondLeg = rand(2, 5);
+          const answer = firstLeg * secondLeg;
+          return item({
+            question: `由家到公園有 ${firstLeg} 條路，公園到學校有 ${secondLeg} 條路。經公園返學共有幾多種走法？`,
+            visualItems: [`家→公園 ${firstLeg}條`, `公園→學校 ${secondLeg}條`],
+            options: numberOptions(answer, [firstLeg + secondLeg, answer - secondLeg, answer + firstLeg]),
+            answer,
+            hint: `每條「家到公園」的路，都可以配 ${secondLeg} 條「公園到學校」的路。`,
+            explain: `${firstLeg} x ${secondLeg} = ${answer}，所以共有 ${answer} 種走法。`
+          });
+        },
+        () => {
+          const mains = rand(3, 5);
+          const drinks = rand(3, 5);
+          const unavailable = rand(1, 2);
+          const all = mains * drinks;
+          const answer = all - unavailable;
+          return item({
+            question: `午餐有 ${mains} 款主食和 ${drinks} 款飲品，本來可有幾多配搭？其中 ${unavailable} 種賣完，還有幾多種？`,
+            visualItems: [`主食${mains}款`, `飲品${drinks}款`, `少${unavailable}種`],
+            options: numberOptions(answer, [all, mains + drinks - unavailable, answer + unavailable]),
+            answer,
+            hint: "先求全部配搭，再減去已賣完的配搭。",
+            explain: `全部有 ${mains} x ${drinks} = ${all} 種；${all} - ${unavailable} = ${answer} 種。`
+          });
+        }
+      ]
+    ];
+
+    ADVANCED_QUESTION_GENERATORS.forEach((generators, topicNo) => {
+      RANDOM_QUESTION_GENERATORS[topicNo].push(...generators);
+    });
+
     function createQuestion(topic, level) {
       return RANDOM_QUESTION_GENERATORS[topic][level]();
     }
 
-    const LEVEL_NAMES = ["一星", "二星", "三星"];
+    const LEVEL_NAMES = ["一星", "二星", "三星", "四星", "五星"];
     let topicIndex = 0;
     let levelIndex = 0;
     let currentItem = null;
@@ -1842,7 +2266,7 @@
 
     function nextQuestion() {
       playTone("tap");
-      if (levelIndex < 2) {
+      if (levelIndex < 4) {
         levelIndex += 1;
       } else {
         levelIndex = 0;
@@ -1904,10 +2328,16 @@
     function validateData() {
       const errors = [];
       TOPICS.forEach((topic, topicNo) => {
-        if (topic.levels.length !== 3) errors.push(`${topic.title} 不是 3 個難度`);
-        topic.levels.forEach((_, levelNo) => {
-          for (let sample = 0; sample < 30; sample += 1) {
-            const generated = createQuestion(topicNo, levelNo);
+        if (RANDOM_QUESTION_GENERATORS[topicNo].length !== 5) errors.push(`${topic.title} 不是 5 個難度`);
+        RANDOM_QUESTION_GENERATORS[topicNo].forEach((_, levelNo) => {
+          for (let sample = 0; sample < 500; sample += 1) {
+            let generated;
+            try {
+              generated = createQuestion(topicNo, levelNo);
+            } catch (error) {
+              errors.push(`${topicNo + 1}-${levelNo + 1} 產生題目時出錯：${error.message}`);
+              break;
+            }
             if (!generated.options.includes(generated.answer)) errors.push(`${topicNo + 1}-${levelNo + 1} 答案不在選項內`);
             if (new Set(generated.options).size !== generated.options.length) errors.push(`${topicNo + 1}-${levelNo + 1} 選項重複`);
             if (generated.options.length !== 4) errors.push(`${topicNo + 1}-${levelNo + 1} 不是 4 個選項`);
@@ -1915,6 +2345,9 @@
             ["question", "hint", "explain"].forEach(field => {
               if (!generated[field] || generated[field].length < 3) errors.push(`${topicNo + 1}-${levelNo + 1} 缺少 ${field}`);
             });
+            if ([...generated.question].length > 100) errors.push(`${topicNo + 1}-${levelNo + 1} 題目太長`);
+            if (generated.options.some(option => /NaN|undefined|null/.test(option))) errors.push(`${topicNo + 1}-${levelNo + 1} 選項資料錯誤`);
+            if (/NaN|undefined|null/.test(`${generated.question}${generated.hint}${generated.explain}`)) errors.push(`${topicNo + 1}-${levelNo + 1} 題目文字錯誤`);
           }
         });
       });
